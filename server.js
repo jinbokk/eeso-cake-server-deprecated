@@ -1,31 +1,60 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require("dotenv").config();
 
-const express = require('express')
-const app = express()
-const expressLayouts = require('express-ejs-layouts')
-const bodyParser = require('body-parser')
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const multer = require("multer");
+const bodyParser = require("body-parser");
 
-const indexRouter = require('./routes/index')
-const authorRouter = require('./routes/authors')
-const bookRouter = require('./routes/books')
+const ImageModel = require("./models/image_model");
 
-app.set('view engine', 'ejs')
-app.set('views', __dirname + '/views')
-app.set('layout', 'layouts/layout')
-app.use(expressLayouts)
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
+const fileStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cd(null);
+  },
+});
 
-const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
-const db = mongoose.connection
-db.on('error', error => console.error(error))
-db.once('open', () => console.log('Connected to Mongoose'))
+const Storage = multer.diskStorage({
+  destination: "uploads",
+  filename: (req, file, cb) => {
+    cb(null,file.originalname);
+  },
+});
 
-app.use('/', indexRouter)
-app.use('/authors', authorRouter)
-app.use('/books', bookRouter)
+const upload = multer({ storage: Storage }).single("testImg");
 
-app.listen(process.env.PORT || 3000)
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// mongoose Connect start
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to Mongoose"));
+// mongoose Connect end
+
+app.get("/", (req, res) => {
+  res.send("upload file");
+});
+
+app.post("/upload", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const newImage = new ImageModel({
+        name: req.body.name,
+        image: {
+          data: req.file.filename,
+          contentType: "image/jpg",
+        },
+      });
+      newImage
+        .save()
+        .then(() => res.send("successfully uploaded"))
+        .catch((err) => console.log(err));
+    }
+  });
+});
+
+app.listen(process.env.PORT || 8000);
