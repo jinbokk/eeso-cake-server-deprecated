@@ -39,9 +39,9 @@ db.once("open", () => console.log(`Connected to mongoDB`));
 // .catch((err) => console.log(err));
 
 // Middleware
-app.use(express.json());
+// app.use(express.json());
 
 // Route
-app.use("/product", require("./routes/product"));
+// app.use("/product", require("./routes/product"));
 
 app.listen(process.env.PORT || 8000, () => console.log("Server is running"));

@@ -39,7 +39,6 @@ router.post("/", async (req, res) => {
     // res.redirect(`products/${newProduct.id}`);
     res.redirect("products");
   } catch (error) {
-    console.log(error);
     res.render("products/new", {
       product: product,
       errorMessage: "Error creating Product",
