@@ -7,8 +7,7 @@ const Product = new Schema({
   layer: { type: Number, required: true },
   design: [{ type: String, required: true }],
   description: { type: String },
-  created_at: { type: String },
-  image_path: { type: String },
+  image_path: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Product", Product);

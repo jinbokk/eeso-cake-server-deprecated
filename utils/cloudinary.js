@@ -9,24 +9,3 @@ cloudinary.config({
 });
 
 module.exports = cloudinary;
-
-// uploadToCloudinary = (path, folder) => {
-//   return cloudinary.v2.uploader
-//     .upload(path, {
-//       folder,
-//     })
-//     .then((data) => {
-//       return { url: data.url, public_id: data.public_id };
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
-// destroyFromCloudinary = async (public_id) => {
-//   await cloudinary.v2.uploader.destroy(public_id, (error, result) => {
-//     console.log(result, error);
-//   });
-// };
-
-// module.exports = { uploadToCloudinary, destroyFromCloudinary };
