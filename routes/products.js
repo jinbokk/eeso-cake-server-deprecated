@@ -28,15 +28,14 @@ router.get("/new", (req, res) => {
 router.post("/", async (req, res) => {
   const product = new Product({
     name: req.body.name,
-    // ingredient: "test",
-    // layer: 1,
-    // design: ["test"],
-    // description: "test",
-    // image_path: "test",
+    ingredient: "test",
+    layer: 1,
+    design: ["test"],
+    description: "test",
+    image_path: "test",
   });
-
   try {
-    const newProduct = await new Product();
+    const newProduct = await product.save();
     // res.redirect(`products/${newProduct.id}`);
     res.redirect("products");
   } catch (error) {

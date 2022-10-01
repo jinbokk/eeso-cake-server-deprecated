@@ -22,7 +22,6 @@ app.use("/", indexRouter);
 app.use("/products", productRouter);
 
 // Connect MongoDB
-
 // useNewUrlParser , useUnifiedTopology , useFindAndModify ,
 // and useCreateIndex are no longer supported options.
 // Mongoose 6 always behaves as if useNewUrlParser , useUnifiedTopology ,
