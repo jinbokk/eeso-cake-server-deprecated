@@ -38,7 +38,6 @@ db.once("open", () => console.log(`Connected to mongoDB`));
 // .then(() => console.log("Connected to MongoDB"))
 // .catch((err) => console.log(err));
 
-
 // Middleware
 // app.use(express.json());
 
