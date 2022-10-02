@@ -6,5 +6,12 @@
 </form>
 <br />
 <% products.forEach(product=>{ %>
-<div><%= product.name %></div>
+<div>
+  <img src="<%= product.image_url %>" style="width:250px"></img>
+  <div>name : <%= product.name %></div>
+  <div>ingredient : <%= product.ingredient %></div>
+  <div>layer : <%= product.layer %></div>
+  <div>design : <%= product.design %></div>
+  <div>description : <%= product.description %></div>
+</div>
 <% }) %>
