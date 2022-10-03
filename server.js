@@ -8,6 +8,9 @@ const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser"); // lib for easliy access to input elements
 
+const cors = require("cors");
+app.use(cors());
+
 const indexRouter = require("./routes/index");
 const productRouter = require("./routes/products");
 const apiRouter = require("./routes/api");
