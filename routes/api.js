@@ -4,8 +4,8 @@ const Product = require("../models/product");
 
 router.get("/", async (req, res) => {
   try {
-    const allProductsJson = await Product.find({});
-    res.json(allProductsJson);
+    const allProductsData = await Product.find({});
+    res.send(allProductsData)
   } catch (error) {
     res.send(error)
     console.log(error);
