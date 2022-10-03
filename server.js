@@ -10,6 +10,7 @@ const bodyParser = require("body-parser"); // lib for easliy access to input ele
 
 const indexRouter = require("./routes/index");
 const productRouter = require("./routes/products");
+const apiRouter = require("./routes/api");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 
 app.use("/", indexRouter);
 app.use("/products", productRouter);
+app.use("/api", apiRouter);
 
 // Connect MongoDB
 // useNewUrlParser , useUnifiedTopology , useFindAndModify ,
