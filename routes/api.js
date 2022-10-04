@@ -4,11 +4,35 @@ const Product = require("../models/product");
 
 router.get("/", async (req, res) => {
   try {
-    const allProductsData = await Product.find({});
-    res.send(allProductsData.json());
+    let allProductData = await Product.find({});
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const startPage = (page - 1) * limit;
+    const endPage = page * limit;
+
+    const results = {};
+
+    if (endPage < allProductData.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+
+    if (startPage > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+    results.results = allProductData.slice(startPage, endPage);
+    results.page = page;
+    results.totalDocs = allProductData.length;
+    return res.json(results);
   } catch (error) {
     res.send(error);
-    console.log(error);
   }
 });
 
@@ -17,10 +41,34 @@ router.get("/rice", async (req, res) => {
     const riceProductsData = await Product.find({
       ingredient: "rice",
     });
-    res.send(riceProductsData.json());
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const startPage = (page - 1) * limit;
+    const endPage = page * limit;
+
+    const results = {};
+
+    if (endPage < riceProductsData.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+
+    if (startPage > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+    results.results = riceProductsData.slice(startPage, endPage);
+    results.page = page;
+    results.totalDocs = riceProductsData.length;
+    return res.json(results);
   } catch (error) {
-    res.send(error);
-    console.log(error);
+    return res.send(error);
   }
 });
 
@@ -29,10 +77,34 @@ router.get("/bread", async (req, res) => {
     const breadProductsData = await Product.find({
       ingredient: "bread",
     });
-    res.send(breadProductsData.json());
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const startPage = (page - 1) * limit;
+    const endPage = page * limit;
+
+    const results = {};
+
+    if (endPage < breadProductsData.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+
+    if (startPage > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+    results.results = breadProductsData.slice(startPage, endPage);
+    results.page = page;
+    results.totalDocs = breadProductsData.length;
+    return res.json(results);
   } catch (error) {
-    res.send(error);
-    console.log(error);
+    return res.send(error);
   }
 });
 
@@ -41,10 +113,34 @@ router.get("/tart", async (req, res) => {
     const tartProductsData = await Product.find({
       ingredient: "tart",
     });
-    res.send(tartProductsData.json());
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const startPage = (page - 1) * limit;
+    const endPage = page * limit;
+
+    const results = {};
+
+    if (endPage < tartProductsData.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+
+    if (startPage > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+    results.results = tartProductsData.slice(startPage, endPage);
+    results.page = page;
+    results.totalDocs = tartProductsData.length;
+    return res.json(results);
   } catch (error) {
-    res.send(error);
-    console.log(error);
+    return res.send(error);
   }
 });
 
