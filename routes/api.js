@@ -5,7 +5,7 @@ const Product = require("../models/product");
 router.get("/", async (req, res) => {
   try {
     const allProductsData = await Product.find({});
-    res.send(allProductsData);
+    res.send(allProductsData.json());
   } catch (error) {
     res.send(error);
     console.log(error);
@@ -17,7 +17,7 @@ router.get("/rice", async (req, res) => {
     const riceProductsData = await Product.find({
       ingredient: "rice",
     });
-    res.send(riceProductsData);
+    res.send(riceProductsData.json());
   } catch (error) {
     res.send(error);
     console.log(error);
@@ -29,7 +29,7 @@ router.get("/bread", async (req, res) => {
     const breadProductsData = await Product.find({
       ingredient: "bread",
     });
-    res.send(breadProductsData);
+    res.send(breadProductsData.json());
   } catch (error) {
     res.send(error);
     console.log(error);
@@ -41,7 +41,7 @@ router.get("/tart", async (req, res) => {
     const tartProductsData = await Product.find({
       ingredient: "tart",
     });
-    res.send(tartProductsData);
+    res.send(tartProductsData.json());
   } catch (error) {
     res.send(error);
     console.log(error);
