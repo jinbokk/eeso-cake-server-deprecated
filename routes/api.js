@@ -4,7 +4,7 @@ const Product = require("../models/product");
 
 router.get("/", async (req, res) => {
   try {
-    let allProductData = await Product.find({});
+    let allProductData = await Product.find({}).sort({ name: -1 });
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -40,7 +40,7 @@ router.get("/rice", async (req, res) => {
   try {
     const riceProductsData = await Product.find({
       ingredient: "rice",
-    });
+    }).sort({ name: -1 });
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -76,7 +76,7 @@ router.get("/bread", async (req, res) => {
   try {
     const breadProductsData = await Product.find({
       ingredient: "bread",
-    });
+    }).sort({ name: -1 });
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -112,7 +112,7 @@ router.get("/tart", async (req, res) => {
   try {
     const tartProductsData = await Product.find({
       ingredient: "tart",
-    });
+    }).sort({ name: -1 });
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
