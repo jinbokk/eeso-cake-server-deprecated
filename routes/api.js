@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
+const { param } = require("./products");
 
 router.get("/", async (req, res) => {
   try {
@@ -30,17 +31,32 @@ router.get("/", async (req, res) => {
     results.results = allProductData.slice(startPage, endPage);
     results.page = page;
     results.totalDocs = allProductData.length;
-    return res.json(results);
+    return res.status(200).json(results);
   } catch (error) {
-    res.send(error);
+    res.status(400).send(error);
   }
 });
 
-router.get("/rice", async (req, res) => {
+// api test----------------------------------------------------------------
+
+// router.get("/:ingredient/:design", async (req, res) => {
+router.get("/:ingredient", async (req, res) => {
+  let ingredient = req.params.ingredient;
+  let design = req.query.design;
+
   try {
-    const riceProductsData = await Product.find({
-      ingredient: "rice",
+    let ProductsData;
+
+    ProductsData = await Product.find({
+      ingredient: ingredient,
     }).sort({ name: -1 });
+
+    if (design) {
+      ProductsData = await Product.find({
+        ingredient: ingredient,
+        design: design,
+      }).sort({ name: -1 });
+    }
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -50,7 +66,7 @@ router.get("/rice", async (req, res) => {
 
     const results = {};
 
-    if (endPage < riceProductsData.length) {
+    if (endPage < ProductsData.length) {
       results.next = {
         page: page + 1,
         limit: limit,
@@ -63,85 +79,123 @@ router.get("/rice", async (req, res) => {
         limit: limit,
       };
     }
-    results.results = riceProductsData.slice(startPage, endPage);
+    results.results = ProductsData.slice(startPage, endPage);
     results.page = page;
-    results.totalDocs = riceProductsData.length;
-    return res.json(results);
+    results.totalDocs = ProductsData.length;
+    return res.status(200).json(results);
   } catch (error) {
-    return res.send(error);
+    return res.status(400).send(error);
   }
 });
 
-router.get("/bread", async (req, res) => {
-  try {
-    const breadProductsData = await Product.find({
-      ingredient: "bread",
-    }).sort({ name: -1 });
+// api test----------------------------------------------------------------
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+// router.get("/rice", async (req, res) => {
+//   try {
+//     const riceProductsData = await Product.find({
+//       ingredient: "rice",
+//     }).sort({ name: -1 });
 
-    const startPage = (page - 1) * limit;
-    const endPage = page * limit;
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 20;
 
-    const results = {};
+//     const startPage = (page - 1) * limit;
+//     const endPage = page * limit;
 
-    if (endPage < breadProductsData.length) {
-      results.next = {
-        page: page + 1,
-        limit: limit,
-      };
-    }
+//     const results = {};
 
-    if (startPage > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit,
-      };
-    }
-    results.results = breadProductsData.slice(startPage, endPage);
-    results.page = page;
-    results.totalDocs = breadProductsData.length;
-    return res.json(results);
-  } catch (error) {
-    return res.send(error);
-  }
-});
+//     if (endPage < riceProductsData.length) {
+//       results.next = {
+//         page: page + 1,
+//         limit: limit,
+//       };
+//     }
 
-router.get("/tart", async (req, res) => {
-  try {
-    const tartProductsData = await Product.find({
-      ingredient: "tart",
-    }).sort({ name: -1 });
+//     if (startPage > 0) {
+//       results.previous = {
+//         page: page - 1,
+//         limit: limit,
+//       };
+//     }
+//     results.results = riceProductsData.slice(startPage, endPage);
+//     results.page = page;
+//     results.totalDocs = riceProductsData.length;
+//     return res.status(200).json(results);
+//   } catch (error) {
+//     return res.status(400).send(error);
+//   }
+// });
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+// router.get("/bread", async (req, res) => {
+//   try {
+//     const breadProductsData = await Product.find({
+//       ingredient: "bread",
+//     }).sort({ name: -1 });
 
-    const startPage = (page - 1) * limit;
-    const endPage = page * limit;
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 20;
 
-    const results = {};
+//     const startPage = (page - 1) * limit;
+//     const endPage = page * limit;
 
-    if (endPage < tartProductsData.length) {
-      results.next = {
-        page: page + 1,
-        limit: limit,
-      };
-    }
+//     const results = {};
 
-    if (startPage > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit,
-      };
-    }
-    results.results = tartProductsData.slice(startPage, endPage);
-    results.page = page;
-    results.totalDocs = tartProductsData.length;
-    return res.json(results);
-  } catch (error) {
-    return res.send(error);
-  }
-});
+//     if (endPage < breadProductsData.length) {
+//       results.next = {
+//         page: page + 1,
+//         limit: limit,
+//       };
+//     }
+
+//     if (startPage > 0) {
+//       results.previous = {
+//         page: page - 1,
+//         limit: limit,
+//       };
+//     }
+//     results.results = breadProductsData.slice(startPage, endPage);
+//     results.page = page;
+//     results.totalDocs = breadProductsData.length;
+//     return res.status(200).json(results);
+//   } catch (error) {
+//     return res.status(400).send(error);
+//   }
+// });
+
+// router.get("/tart", async (req, res) => {
+//   try {
+//     const tartProductsData = await Product.find({
+//       ingredient: "tart",
+//     }).sort({ name: -1 });
+
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 20;
+
+//     const startPage = (page - 1) * limit;
+//     const endPage = page * limit;
+
+//     const results = {};
+
+//     if (endPage < tartProductsData.length) {
+//       results.next = {
+//         page: page + 1,
+//         limit: limit,
+//       };
+//     }
+
+//     if (startPage > 0) {
+//       results.previous = {
+//         page: page - 1,
+//         limit: limit,
+//       };
+//     }
+//     results.results = tartProductsData.slice(startPage, endPage);
+//     results.page = page;
+//     results.totalDocs = tartProductsData.length;
+//     return res.status(200).json(results);
+//   } catch (error) {
+//     return res.status(400).send(error);
+//   }
+// });
 
 module.exports = router;
