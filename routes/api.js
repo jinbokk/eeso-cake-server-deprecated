@@ -44,6 +44,8 @@ router.get("/:ingredient", async (req, res) => {
   let ingredient = req.params.ingredient;
   let design = req.query.design;
 
+  // res.send(design);
+
   try {
     let ProductsData;
 
@@ -54,7 +56,7 @@ router.get("/:ingredient", async (req, res) => {
     if (design) {
       ProductsData = await Product.find({
         ingredient: ingredient,
-        design: design,
+        design: { $all: design.split(",") },
       }).sort({ name: -1 });
     }
 
