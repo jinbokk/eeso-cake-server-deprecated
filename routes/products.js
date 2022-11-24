@@ -37,6 +37,7 @@ router.get("/", async (req, res) => {
     });
   } catch (error) {
     res.redirect("/");
+    console.log("error occurred", error);
   }
 });
 
@@ -48,6 +49,7 @@ router.get("/new", (req, res) => {
 // Create Product Route
 router.post("/", upload.single("image"), async (req, res) => {
   try {
+    console.log(req.file);
     const fileName =
       req.file !== null ? req.file.originalname.split(".")[0] : null;
 
@@ -73,7 +75,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       image_url: image_url,
     });
 
-    console.log("mongoDB upload result : ", product);
+    console.log("mongoDB Product upload result : ", product);
 
     const newProduct = await product.save();
 
